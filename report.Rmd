@@ -1,24 +1,12 @@
 ---
 title: "Analysis of Green Impact of Historical Events"
 author:
-- familyname: Bhat
-  othernames: Smriti Vinayak
-  address: Monash University
-  email: sbha004@student.monash.edu
-  correspondingauthor: true
-  qualifications:  Masters Student
 - familyname: Gupta
   othernames: Ambalika
   address: Monash University
   email: agup0027@student.monash.edu
   correspondingauthor: true
   qualifications: Masters Student
-- familyname: Ho
-  othernames: Yin Shan
-  address: Monash University
-  email: yhoo0020@student.monash.edu
-  correspondingauthor: true
-  qualifications:  Master student
 department: Our consultancy \newline Team of Thrones
 organization: Australian Government COVID19
 bibliography: references.bib
