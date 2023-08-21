@@ -1,0 +1,12 @@
+# Object file
+*.o
+
+# Ada Library Information
+*.ali
+.Rproj.user
+
+# Other files
+
+*.DS_Store
+*.DS_Store?
+*.log

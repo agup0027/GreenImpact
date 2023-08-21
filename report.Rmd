@@ -1,0 +1,237 @@
+---
+title: "Analysis of Green Impact of Historical Events"
+author:
+- familyname: Bhat
+  othernames: Smriti Vinayak
+  address: Monash University
+  email: sbha004@student.monash.edu
+  correspondingauthor: true
+  qualifications:  Masters Student
+- familyname: Gupta
+  othernames: Ambalika
+  address: Monash University
+  email: agup0027@student.monash.edu
+  correspondingauthor: true
+  qualifications: Masters Student
+- familyname: Ho
+  othernames: Yin Shan
+  address: Monash University
+  email: yhoo0020@student.monash.edu
+  correspondingauthor: true
+  qualifications:  Master student
+department: Our consultancy \newline Team of Thrones
+organization: Australian Government COVID19
+bibliography: references.bib
+biblio-style: authoryear-comp
+linestretch: 1.5
+output:
+  bookdown::pdf_document2:
+    extra_dependencies: ["float"]
+    template: monashreport2.tex
+    fig_caption: yes
+    fig_height: 5
+    fig_width: 8
+    includes:
+      in_header: preamble.tex
+    keep_tex: yes
+    number_sections: yes
+    citation_package: biblatex
+    toc: false
+---
+
+```{r , include=FALSE}
+# Libraries
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+library(tidyverse)
+library(readr)
+library(kableExtra)
+library(bookdown)
+library(ggplot2)
+
+```
+
+\section*{Introduction}
+
+The report aims to identify specific historic events and analyse how they have impacted the production of carbon dioxide and per capita consumption of fuel.
+
+- The first section analyses Denmark and Sudan. The historical events being examined are:
+  1. Sudan is a war-torn country with the Darfur conflict raging since 2003^[@sudan]
+  2. Denmark has recently passed a climate legislation committing to cut carbon emissions by 70%^[@denmark]
+  
+- The second section analyses Canada and Ireland. The historical events being examined are:
+  1. Under the Paris Agreement, Canada has committed to reducing its greenhouse gas emissions by 30% below 2005 levels by 2030. ^[@canada4]
+  2. Ireland is obliged to cut its emissions by 80% by 2050 compared to 1990 levels, under its Climate Action and Low Carbon Development Act 2015.^[@ireland2]
+  
+- The third section analyses Japan and Italy. The historical events being examined are:
+  1. Japan has taken Nuclear energy as national strategic priority since 1973^[@japan] 
+  2. Italy has ratified the Kyoto Protocol to reduce greenhouse gases emissions^[@kyoto]
+  
+  
+\section*{Country Denmark and Sudan}
+
+```{r section1-data}
+assignment3 <- read_csv("data/Assignment3_data.csv")
+
+denmark_data <- assignment3 %>%
+  filter(Country_Name == "Denmark")
+
+sudan_data <- assignment3 %>%
+  filter(Country_Name == "Sudan")
+```
+
+\subsection*{Analysis on Sudan}
+
+Sudan has been in a constant state of civil war. There are sources that blame oil companies for fueling this^[@oilcompany]. This section analyses such claims using Table \@ref(tab:sudanoil).
+
+```{r sudanoil}
+sudan_oil <- sudan_data %>%
+  select(Year,Energy_use_kg_of_oil_equivalent_per_capita) %>%
+  filter(Energy_use_kg_of_oil_equivalent_per_capita>0, Year > 2000) %>%
+  mutate(previous_year_value = lag(Energy_use_kg_of_oil_equivalent_per_capita ,default = 491.3762)) %>%
+  rowwise() %>%
+  mutate(`Percentage change` = (Energy_use_kg_of_oil_equivalent_per_capita - previous_year_value)/previous_year_value*100) %>% 
+  mutate(across(where(is.numeric), ~ round(., digits = 1))) %>%
+  select(Year, `Percentage change`)
+
+kbl(sudan_oil, caption = "Percentage change in Oil Usage by year in Sudan") %>%
+  kable_styling(bootstrap_options = "striped", latex_options = "HOLD_position", font_size = 7) %>%
+  column_spec(1, width = "20em") %>%
+  column_spec(2, width = "20em") %>%
+  row_spec(0, bold = TRUE)
+```
+
+From Table \@ref(tab:sudanoil) we can see that in 2001 there was a slide in the usage of oil resources. It could be due to the civil war^[@hrw] but it foreshadows grim problems for the oil industry. The Darfur region conflict seems to have arrested, even possibly reversed the decline in usage. This trend supports the theory.
+
+\subsection*{Analysis on Denmark}
+
+Denmark has stated that they can slash carbon dioxide emissions by 70% without compromising welfare benefits^[@reuters]. This section speculates whether this is possible. Figure \@ref(fig:denmarkco2) visualizes the possibility using a linear regression model.
+
+
+```{r denmarkco2, fig.cap="Forecast of reduction of Carbon dioxide emissions by Denmark", out.width="90%" , fig.pos = "H"}
+denmark_co2 <- denmark_data %>%
+  select(Year,CO2_emissions_metric_tons_per_capita) %>%
+  na.omit() 
+
+fit_co2 <- lm(CO2_emissions_metric_tons_per_capita ~ Year,data = denmark_co2)
+
+ggplot(data = denmark_co2, aes(x = Year , y = CO2_emissions_metric_tons_per_capita )) +
+geom_point() +
+stat_smooth(method = "lm", col = "green") +
+theme(panel.background = element_rect(fill = "white"),
+axis.line.x=element_line(),
+axis.line.y=element_line()) +
+ggtitle("Linear Model Fitted to Data")
+
+p <-  as.data.frame(2030)
+colnames(p) <- "Year"
+co2_level <- predict(fit_co2, newdata = p)
+```
+
+The linear regression model predicts that the level in 2030 would be `r co2_level`. The last known value is `r denmark_co2$CO2_emissions_metric_tons_per_capita[55]` for the year 2014. The clear disparity in values shows that there needs to be significant change to governmental policies.
+
+
+\section*{Country Canada and Ireland}
+
+```{r}
+climatechange <- read_csv("data/Assignment3_data.csv")
+
+Canada <- climatechange %>%
+  filter(Country_Name == "Canada")
+
+Ireland <- climatechange %>%
+  filter(Country_Name == "Ireland", Year > 2004)
+```
+
+
+\subsection*{Analysis on Canada}
+
+Canada's industrial, transportation, commercial and institutional sectors are large consumers of energy. In Canada, about 82% of emissions come from energy.^[@canada1].
+
+Figure \@ref(tab:canadaoilusage) shows the trend of energy consumption per kg of crude oil per capita over the period 2000-2015
+
+```{r}
+canadaoilusage <- Canada %>%
+  select(Year,Energy_use_kg_of_oil_equivalent_per_capita) %>%
+  filter(Year > 1999) %>%
+  na.omit()
+```
+
+
+```{r canadaoilusage}
+
+kbl(canadaoilusage, caption = "Amount of Energy used per kg of Crude oil per capita") %>%
+  kable_styling(bootstrap_options = "striped", latex_options = "HOLD_position", font_size = 7) %>%
+  column_spec(1, width = "5em") %>%
+  column_spec(2, width = "20em") %>%
+  row_spec(0, bold = TRUE)
+
+```
+
+Above Table \@ref(tab:canadaoilusage) shows a declining trend in the per capita energy consumption, which represents that Canada is taking greener steps to become a low-carbon economy by generating cleaner, renewable energy. 
+
+\subsection*{Analysis on Ireland}
+
+Irish policy began to address reductions in national greenhouse gas emissions from 2005 onwards( The base year against which compliance with EU targets is measured). Ireland faced economic recession and therefore resulting reduced employment and consumption and travel.
+
+```{r irelandco2, fig.cap="Trend of Percentage change in CO2 emissions per capita over the period 2006 to 2014", out.width="90%" , fig.pos = "H"}
+
+irelandco2 <- Ireland %>% 
+  mutate(pctchangeco2 = (CO2_emissions_metric_tons_per_capita/lag(CO2_emissions_metric_tons_per_capita) - 1) * 100) %>% 
+  na.omit()
+
+ggplot(data= irelandco2, aes(x=Year, y = pctchangeco2, group=1)) +
+  geom_line(color="green")+
+  geom_point()+
+  scale_color_brewer(palette="Paired")+
+  theme_bw()
+
+```
+
+Figure \@ref(fig:irelandco2) shows that Ireland was successful in reducing CO2 emission per capita from the period 2005 onward. It also displays a downward trend 2007 onwards due to recession.^[@ireland1]. 
+
+
+\section*{Country Italy and Japan}
+
+```{r}
+data <- read_csv("Data/Assignment3_data.csv") 
+```
+
+\subsection*{Analysis on Japan}
+
+After the WWII, Japan recovered quickly and rapidly expanded its industrial base. The country was highly dependent on importing oil. Later in 1970s, Japan government decided to develop nuclear powers so as to reduce dependence on imported energy^[@japan]. Figure \@ref(fig:japoil) shows the trend of oil consumption after nuclear power development started.
+
+```{r japoil, fig.cap="The trend of oil consumption in Japan from 1970s", out.width="90%" , fig.pos = "H"}
+jap_emission <- data %>% 
+  select(Year, Energy_use_kg_of_oil_equivalent_per_capita, Country_Name) %>%
+  filter(Country_Name == "Japan") %>% 
+ggplot(aes(x = Year,
+           y = Energy_use_kg_of_oil_equivalent_per_capita))+
+  geom_line(color="green") +
+  geom_point() +
+  scale_color_brewer(palette="Paired") +
+  theme_bw()
+jap_emission
+```
+
+From the Figure \@ref(fig:japoil), Japan had an increasing trend of consumption despite the rapid development of Nuclear Power until late 1990s.
+
+
+\subsection*{Analysis on Italy}
+Italy ratified the Kyoto Protocol^[@kyoto] in 2002. The protocol aims to reduce greenhouse gases emissions with agreed target. The table \@ref(tab:italyco2) has shown the trend of carbon dioxides emissions in Italy after 2000.
+```{r italyco2}
+italy_co2 <- data %>% 
+  select(Year, CO2_emissions_metric_tons_per_capita, Country_Name) %>%
+  filter(Country_Name == "Italy", Year > 2000) %>% 
+  group_by(Country_Name) %>% 
+  mutate(pct_change = (CO2_emissions_metric_tons_per_capita/lag(CO2_emissions_metric_tons_per_capita) - 1) * 100)%>% 
+  na.omit()
+kbl(italy_co2, caption = "Trend of Carbon Dioxide emission in Italy") %>%
+  kable_styling(bootstrap_options = "striped", latex_options = "HOLD_position", font_size = 7) %>%
+  column_spec(1, width = "10em") %>%
+  column_spec(2, width = "20em") %>%
+  column_spec(3, width = "10em") %>%
+  column_spec(4, width = "10em") %>%
+  row_spec(0, bold = TRUE)
+```
+Based on Table \@ref(tab:italyco2), Italy successfully reduced the emission in the past two decades by reducing energy consumption and developing clean energy^[@italy].
+

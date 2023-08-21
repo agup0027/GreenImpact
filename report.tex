@@ -1,0 +1,521 @@
+\documentclass[11pt,a4paper,]{article}
+\usepackage{lmodern}
+
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
+\usepackage[unicode=true]{hyperref}
+\hypersetup{
+            pdftitle={Analysis of Green Impact of Historical Events},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{geometry}
+\geometry{a4paper, centering, text={16cm,24cm}}
+\usepackage[style=authoryear-comp,]{biblatex}
+\addbibresource{references.bib}
+\usepackage{longtable,booktabs}
+% Fix footnotes in tables (requires footnote package)
+\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{long table}}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\title{Analysis of Green Impact of Historical Events}
+
+%% MONASH STUFF
+
+%% CAPTIONS
+\RequirePackage{caption}
+\DeclareCaptionStyle{italic}[justification=centering]
+ {labelfont={bf},textfont={it},labelsep=colon}
+\captionsetup[figure]{style=italic,format=hang,singlelinecheck=true}
+\captionsetup[table]{style=italic,format=hang,singlelinecheck=true}
+
+
+%% FONT
+\RequirePackage{bera}
+\RequirePackage[charter,expert,sfscaled]{mathdesign}
+\RequirePackage{fontawesome}
+
+%% HEADERS AND FOOTERS
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+\rfoot{\Large\sffamily\raisebox{-0.1cm}{\textbf{\thepage}}}
+\makeatletter
+\lhead{\textsf{\expandafter{\@title}}}
+\makeatother
+\rhead{}
+\cfoot{}
+\setlength{\headheight}{15pt}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[C]{\sffamily\thepage} % except the center
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+%% MATHS
+\RequirePackage{bm,amsmath}
+\allowdisplaybreaks
+
+%% GRAPHICS
+\RequirePackage{graphicx}
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.15}
+\renewcommand{\floatpagefraction}{0.8}
+
+
+%\RequirePackage[section]{placeins}
+
+%% SECTION TITLES
+
+
+%% SECTION TITLES (NEW: Changing sections and subsections color)
+\RequirePackage[compact,sf,bf]{titlesec}
+\titleformat*{\section}{\Large\sf\bfseries\color[rgb]{0.8, 0.7, 0.1 }}
+\titleformat*{\subsection}{\large\sf\bfseries\color[rgb]{0.8, 0.7, 0.1 }}
+\titleformat*{\subsubsection}{\sf\bfseries\color[rgb]{0.8, 0.7, 0.1 }}
+\titlespacing{\section}{0pt}{2ex}{.5ex}
+\titlespacing{\subsection}{0pt}{1.5ex}{0ex}
+\titlespacing{\subsubsection}{0pt}{.5ex}{0ex}
+
+
+%% TITLE PAGE
+\def\Date{\number\day}
+\def\Month{\ifcase\month\or
+ January\or February\or March\or April\or May\or June\or
+ July\or August\or September\or October\or November\or December\fi}
+\def\Year{\number\year}
+
+%% LINE AND PAGE BREAKING
+\sloppy
+\clubpenalty = 10000
+\widowpenalty = 10000
+\brokenpenalty = 10000
+\RequirePackage{microtype}
+
+%% PARAGRAPH BREAKS
+\setlength{\parskip}{1.4ex}
+\setlength{\parindent}{0em}
+
+%% HYPERLINKS
+\RequirePackage{xcolor} % Needed for links
+\definecolor{darkblue}{rgb}{0,0,.6}
+\RequirePackage{url}
+
+\makeatletter
+\@ifpackageloaded{hyperref}{}{\RequirePackage{hyperref}}
+\makeatother
+\hypersetup{
+     citecolor=0 0 0,
+     breaklinks=true,
+     bookmarksopen=true,
+     bookmarksnumbered=true,
+     linkcolor=darkblue,
+     urlcolor=blue,
+     citecolor=darkblue,
+     colorlinks=true}
+
+\usepackage[showonlyrefs]{mathtools}
+\usepackage[no-weekday]{eukdate}
+
+%% BIBLIOGRAPHY
+
+\makeatletter
+\@ifpackageloaded{biblatex}{}{\usepackage[style=authoryear-comp, backend=biber, natbib=true]{biblatex}}
+\makeatother
+\ExecuteBibliographyOptions{bibencoding=utf8,minnames=1,maxnames=3, maxbibnames=99,dashed=false,terseinits=true,giveninits=true,uniquename=false,uniquelist=false,doi=false, isbn=false,url=true,sortcites=false}
+
+\DeclareFieldFormat{url}{\texttt{\url{#1}}}
+\DeclareFieldFormat[article]{pages}{#1}
+\DeclareFieldFormat[inproceedings]{pages}{\lowercase{pp.}#1}
+\DeclareFieldFormat[incollection]{pages}{\lowercase{pp.}#1}
+\DeclareFieldFormat[article]{volume}{\mkbibbold{#1}}
+\DeclareFieldFormat[article]{number}{\mkbibparens{#1}}
+\DeclareFieldFormat[article]{title}{\MakeCapital{#1}}
+\DeclareFieldFormat[article]{url}{}
+%\DeclareFieldFormat[book]{url}{}
+%\DeclareFieldFormat[inbook]{url}{}
+%\DeclareFieldFormat[incollection]{url}{}
+%\DeclareFieldFormat[inproceedings]{url}{}
+\DeclareFieldFormat[inproceedings]{title}{#1}
+\DeclareFieldFormat{shorthandwidth}{#1}
+%\DeclareFieldFormat{extrayear}{}
+% No dot before number of articles
+\usepackage{xpatch}
+\xpatchbibmacro{volume+number+eid}{\setunit*{\adddot}}{}{}{}
+% Remove In: for an article.
+\renewbibmacro{in:}{%
+  \ifentrytype{article}{}{%
+  \printtext{\bibstring{in}\intitlepunct}}}
+
+\AtEveryBibitem{\clearfield{month}}
+\AtEveryCitekey{\clearfield{month}}
+
+\makeatletter
+\DeclareDelimFormat[cbx@textcite]{nameyeardelim}{\addspace}
+\makeatother
+
+\author{\sf\Large\textbf{ Smriti Vinayak Bhat}\\ {\sf\large Masters Student\\[0.5cm]} \sf\Large\textbf{ Ambalika Gupta}\\ {\sf\large Masters Student\\[0.5cm]} \sf\Large\textbf{ Yin Shan Ho}\\ {\sf\large Master student\\[0.5cm]}}
+
+\date{\sf\Date~\Month~\Year}
+\makeatletter
+\lfoot{\sf Bhat, Gupta, Ho: \@date}
+\makeatother
+
+
+%%%% PAGE STYLE FOR FRONT PAGE OF REPORTS
+
+\makeatletter
+\def\organization#1{\gdef\@organization{#1}}
+\def\telephone#1{\gdef\@telephone{#1}}
+\def\email#1{\gdef\@email{#1}}
+\makeatother
+  \organization{Australian Government COVID19}
+
+  \def\name{Our consultancy \newline Team of Thrones}
+
+  \telephone{(03) 9905 2478}
+
+  \email{questions@company.com}                 %NEW: New email addresss
+
+\def\webaddress{\url{http://company.com/stats/consulting/}} %NEW: URl
+\def\abn{12 377 614 630}                                    % NEW: ABN
+\def\logo{\includegraphics[width=6cm]{Figures/logo}}  %NEW: Changing logo
+\def\extraspace{\vspace*{1.6cm}}
+\makeatletter
+\def\contactdetails{\faicon{phone} & \@telephone \\
+                    \faicon{envelope} & \@email}
+\makeatother
+
+%%%% FRONT PAGE OF REPORTS
+
+\def\reporttype{Report for}
+
+\long\def\front#1#2#3{
+\newpage
+\begin{singlespacing}
+\thispagestyle{empty}
+\vspace*{-1.4cm}
+\hspace*{-1.4cm}
+\hbox to 16cm{
+  \hbox to 6.5cm{\vbox to 14cm{\vbox to 25cm{
+    \logo
+    \vfill
+    \parbox{6.3cm}{\raggedright
+      \sf\color[rgb]{0.8, 0.7, 0.1 }    % NEW color 
+      {\large\textbf{\name}}\par
+      \vspace{.7cm}
+      \tabcolsep=0.12cm\sf\small
+      \begin{tabular}{@{}ll@{}}\contactdetails
+      \end{tabular}
+      \vspace*{0.3cm}\par
+      ABN: \abn\par
+    }
+  }\vss}\hss}
+  \hspace*{0.2cm}
+  \hbox to 1cm{\vbox to 14cm{\rule{4pt}{26.8cm}\vss}\hss\hfill}  %NEW: Thicker line
+  \hbox to 10cm{\vbox to 14cm{\vbox to 25cm{   
+      \vspace*{3cm}\sf\raggedright
+      \parbox{11cm}{\sf\raggedright\baselineskip=1.2cm
+         \fontsize{24.88}{30}\color[rgb]{0, 0.29, 0.55}\sf\textbf{#1}}   % NEW: title color blue
+      \par
+      \vfill
+      \large
+      \vbox{\parskip=0.8cm #2}\par
+      \vspace*{2cm}\par
+      \reporttype\\[0.3cm]
+      \hbox{#3}%\\[2cm]\
+      \vspace*{1cm}
+      {\large\sf\textbf{\Date~\Month~\Year}}
+   }\vss}
+  }}
+\end{singlespacing}
+\newpage
+}
+
+\makeatletter
+\def\titlepage{\front{\expandafter{\@title}}{\@author}{\@organization}}
+\makeatother
+
+\usepackage{setspace}
+\setstretch{1.5}
+
+%% Any special functions or other packages can be loaded here.
+\usepackage{float}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+
+
+\begin{document}
+\titlepage
+
+\section*{Introduction}
+
+The report aims to identify specific historic events and analyse how they have impacted the production of carbon dioxide and per capita consumption of fuel.
+
+\begin{itemize}
+\tightlist
+\item
+  The first section analyses Denmark and Sudan. The historical events being examined are:
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Sudan is a war-torn country with the Darfur conflict raging since 2003\footnote{\textcite{sudan}}
+  \item
+    Denmark has recently passed a climate legislation committing to cut carbon emissions by 70\%\footnote{\textcite{denmark}}
+  \end{enumerate}
+\item
+  The second section analyses Canada and Ireland. The historical events being examined are:
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Under the Paris Agreement, Canada has committed to reducing its greenhouse gas emissions by 30\% below 2005 levels by 2030. \footnote{\textcite{canada4}}
+  \item
+    Ireland is obliged to cut its emissions by 80\% by 2050 compared to 1990 levels, under its Climate Action and Low Carbon Development Act 2015.\footnote{\textcite{ireland2}}
+  \end{enumerate}
+\item
+  The third section analyses Japan and Italy. The historical events being examined are:
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Japan has taken Nuclear energy as national strategic priority since 1973\footnote{\textcite{japan}}
+  \item
+    Italy has ratified the Kyoto Protocol to reduce greenhouse gases emissions\footnote{\textcite{kyoto}}
+  \end{enumerate}
+\end{itemize}
+
+\section*{Country Denmark and Sudan}
+
+\subsection*{Analysis on Sudan}
+
+Sudan has been in a constant state of civil war. There are sources that blame oil companies for fueling this\footnote{\textcite{oilcompany}}. This section analyses such claims using Table \ref{tab:sudanoil}.
+
+\begin{table}[H]
+
+\caption{\label{tab:sudanoil}Percentage change in Oil Usage by year in Sudan}
+\centering
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{>{\raggedleft\arraybackslash}p{20em}|>{\raggedleft\arraybackslash}p{20em}}
+\hline
+\textbf{Year} & \textbf{Percentage change}\\
+\hline
+2001 & -20.7\\
+\hline
+2002 & 5.5\\
+\hline
+2003 & -5.5\\
+\hline
+2004 & -2.8\\
+\hline
+2005 & -1.0\\
+\hline
+2006 & 4.4\\
+\hline
+2007 & -6.0\\
+\hline
+2008 & -1.2\\
+\hline
+2009 & 0.6\\
+\hline
+2010 & -0.6\\
+\hline
+2011 & -3.0\\
+\hline
+2012 & 8.1\\
+\hline
+2013 & 0.0\\
+\hline
+2014 & 0.3\\
+\hline
+\end{tabular}
+\end{table}
+
+From Table \ref{tab:sudanoil} we can see that in 2001 there was a slide in the usage of oil resources. It could be due to the civil war\footnote{\textcite{hrw}} but it foreshadows grim problems for the oil industry. The Darfur region conflict seems to have arrested, even possibly reversed the decline in usage. This trend supports the theory.
+
+\subsection*{Analysis on Denmark}
+
+Denmark has stated that they can slash carbon dioxide emissions by 70\% without compromising welfare benefits\footnote{\textcite{reuters}}. This section speculates whether this is possible. Figure \ref{fig:denmarkco2} visualizes the possibility using a linear regression model.
+
+\begin{figure}[H]
+\includegraphics[width=0.9\linewidth]{report_files/figure-latex/denmarkco2-1} \caption{Forecast of reduction of Carbon dioxide emissions by Denmark}\label{fig:denmarkco2}
+\end{figure}
+
+The linear regression model predicts that the level in 2030 would be 8.8302417. The last known value is 5.9357125 for the year 2014. The clear disparity in values shows that there needs to be significant change to governmental policies.
+
+\section*{Country Canada and Ireland}
+
+\subsection*{Analysis on Canada}
+
+Canada's industrial, transportation, commercial and institutional sectors are large consumers of energy. In Canada, about 82\% of emissions come from energy.\footnote{\textcite{canada1}}.
+
+Figure \ref{tab:canadaoilusage} shows the trend of energy consumption per kg of crude oil per capita over the period 2000-2015
+
+\begin{table}[H]
+
+\caption{\label{tab:canadaoilusage}Amount of Energy used per kg of Crude oil per capita}
+\centering
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{>{\raggedleft\arraybackslash}p{5em}|>{\raggedleft\arraybackslash}p{20em}}
+\hline
+\textbf{Year} & \textbf{Energy\_use\_kg\_of\_oil\_equivalent\_per\_capita}\\
+\hline
+2000 & 8265.080\\
+\hline
+2001 & 8056.349\\
+\hline
+2002 & 7993.879\\
+\hline
+2003 & 8341.343\\
+\hline
+2004 & 8455.547\\
+\hline
+2005 & 8422.034\\
+\hline
+2006 & 8239.946\\
+\hline
+2007 & 8213.390\\
+\hline
+2008 & 8194.881\\
+\hline
+2009 & 7797.121\\
+\hline
+2010 & 7788.561\\
+\hline
+2011 & 7911.555\\
+\hline
+2012 & 7733.412\\
+\hline
+2013 & 7743.726\\
+\hline
+2014 & 7897.856\\
+\hline
+2015 & 7631.342\\
+\hline
+\end{tabular}
+\end{table}
+
+Above Table \ref{tab:canadaoilusage} shows a declining trend in the per capita energy consumption, which represents that Canada is taking greener steps to become a low-carbon economy by generating cleaner, renewable energy.
+
+\subsection*{Analysis on Ireland}
+
+Irish policy began to address reductions in national greenhouse gas emissions from 2005 onwards( The base year against which compliance with EU targets is measured). Ireland faced economic recession and therefore resulting reduced employment and consumption and travel.
+
+\begin{figure}[H]
+\includegraphics[width=0.9\linewidth]{report_files/figure-latex/irelandco2-1} \caption{Trend of Percentage change in CO2 emissions per capita over the period 2006 to 2014}\label{fig:irelandco2}
+\end{figure}
+
+Figure \ref{fig:irelandco2} shows that Ireland was successful in reducing CO2 emission per capita from the period 2005 onward. It also displays a downward trend 2007 onwards due to recession.\footnote{\textcite{ireland1}}.
+
+\section*{Country Italy and Japan}
+
+\subsection*{Analysis on Japan}
+
+After the WWII, Japan recovered quickly and rapidly expanded its industrial base. The country was highly dependent on importing oil. Later in 1970s, Japan government decided to develop nuclear powers so as to reduce dependence on imported energy\footnote{\textcite{japan}}. Figure \ref{fig:japoil} shows the trend of oil consumption after nuclear power development started.
+
+\begin{figure}[H]
+\includegraphics[width=0.9\linewidth]{report_files/figure-latex/japoil-1} \caption{The trend of oil consumption in Japan from 1970s}\label{fig:japoil}
+\end{figure}
+
+From the Figure \ref{fig:japoil}, Japan had an increasing trend of consumption despite the rapid development of Nuclear Power until late 1990s.
+
+\subsection*{Analysis on Italy}
+
+Italy ratified the Kyoto Protocol\footnote{\textcite{kyoto}} in 2002. The protocol aims to reduce greenhouse gases emissions with agreed target. The table \ref{tab:italyco2} has shown the trend of carbon dioxides emissions in Italy after 2000.
+
+\begin{table}[H]
+
+\caption{\label{tab:italyco2}Trend of Carbon Dioxide emission in Italy}
+\centering
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{>{\raggedleft\arraybackslash}p{10em}|>{\raggedleft\arraybackslash}p{20em}|>{\raggedright\arraybackslash}p{10em}|>{\raggedleft\arraybackslash}p{10em}}
+\hline
+\textbf{Year} & \textbf{CO2\_emissions\_metric\_tons\_per\_capita} & \textbf{Country\_Name} & \textbf{pct\_change}\\
+\hline
+2002 & 7.932323 & Italy & 0.3528448\\
+\hline
+2003 & 8.171751 & Italy & 3.0183874\\
+\hline
+2004 & 8.216487 & Italy & 0.5474459\\
+\hline
+2005 & 8.166090 & Italy & -0.6133652\\
+\hline
+2006 & 8.072146 & Italy & -1.1504224\\
+\hline
+2007 & 7.917347 & Italy & -1.9176857\\
+\hline
+2008 & 7.601765 & Italy & -3.9859594\\
+\hline
+2009 & 6.795651 & Italy & -10.6042937\\
+\hline
+2010 & 6.838375 & Italy & 0.6286827\\
+\hline
+2011 & 6.702558 & Italy & -1.9861000\\
+\hline
+2012 & 6.205414 & Italy & -7.4172246\\
+\hline
+2013 & 5.732942 & Italy & -7.6138674\\
+\hline
+2014 & 5.270867 & Italy & -8.0599996\\
+\hline
+\end{tabular}
+\end{table}
+
+Based on Table \ref{tab:italyco2}, Italy successfully reduced the emission in the past two decades by reducing energy consumption and developing clean energy\footnote{\textcite{italy}}.
+
+\printbibliography
+
+\end{document}
+
